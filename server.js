@@ -35,23 +35,23 @@ app.get("/",(req,res)=>{
 })
 
 app.get("/get-balance",async (req,res)=>{
-    const walletBalance = await getWalletBalance();
+    const walletBalance = getWalletBalance();
     res.json({ balance: walletBalance });
 })
 
 app.post('/roll-dice', async (req, res) => {
-    let walletBalance = getWalletBalance();
+    let walletBalance = await getWalletBalance();
     const { betAmount } = req.body;
     console.log(betAmount);
     if (!betAmount || betAmount <= 0) {
         return res.status(400).json({ error: 'Invalid bet amount' });
     }
 
-    const response = await axios.get('https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd');
-    let ethPrice = Math.round(response.data.ethereum.usd);
-    if (!ethPrice) {
-        return res.status(500).json({ error: 'Failed to fetch ETH price' });
-    }
+    // const response = await axios.get('https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd');
+    // let ethPrice = Math.round(response.data.ethereum.usd);
+    // if (!ethPrice) {
+    //     return res.status(500).json({ error: 'Failed to fetch ETH price' });
+    // }
 
     if (betAmount > walletBalance) {
         return res.status(400).json({ error: 'Insufficient balance' });

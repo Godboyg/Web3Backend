@@ -35,7 +35,7 @@ app.get("/",(req,res)=>{
 })
 
 app.get("/get-balance",async (req,res)=>{
-    const walletBalance = getWalletBalance();
+    const walletBalance = await getWalletBalance();
     res.json({ balance: walletBalance });
 })
 
